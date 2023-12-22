@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" class="snap-mandatory snap-y scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <title>Three.js Cube Behind Divs</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/21.0.0/tween.umd.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body, html {
+            scroll-snap-type: mandatory;
+            scroll-snap-type: y mandatory;
+        }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        #scroll-container {
+            height: 700vh; /* Create a tall scrollable container */
+            overflow-y: scroll; /* Enable vertical scrolling */
+            scroll-snap-type: y mandatory; /* Enable scroll snapping */
+        }
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        * {
+            font-family: 'khula', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        a {
+            cursor: pointer;
+        }
+        .stop {
+            scroll-snap-align: start;
+        }
+
+    </style>
+</head>
+    <body id="scroll-container" class="flex flex-col justify-center items-center relative overflow-scroll">
+        <div class="w-screen h-screen border-4 border-blue-500 relative stop z-10 text-white flex stop flex-col justify-end h-screen">
+            BRANDING
+            <div class="h-2/6"></div>
+
+            <div class="self-center m-auto">
+                <h1 class="leading-[0.8] uppercase lg:text-9xl md:text-6xl sm:text-5xl text-5xl text-center font-semibold text-white ">
+                    it's infinite
+                </h1>
+                <div class="grid text-white m-auto uppercase cursor-pointer py-3 justify-center grid-cols-2 lg:grid-cols-4 flex-wrap w-2/3">
+
+                    <a class="btn rounded-sm  bg-red-700 bg-opacity-60 hover:bg-opacity-25  text-center m-1 text-xs self-center px-1 p-1 pt-2">
+                        WHY SO
+                    </a>
+                    <a class="btn rounded-sm bg-red-700 bg-opacity-60 hover:bg-opacity-25 text-center m-1 text-xs self-center px-1 p-1 pt-2 ">
+                        Something
+                    </a>
+                    <a class="btn rounded-sm  bg-red-700 bg-opacity-60 hover:bg-opacity-25 text-center m-1 text-xs self-center px-1 p-1 pt-2">
+                        other stuff
+                    </a>
+                    <a class="btn rounded-sm bg-red-700 bg-opacity-60 hover:bg-opacity-25 text-center m-1 text-xs self-center px-1 p-1 pt-2">
+                        more stuff
+                    </a>
+
+                </div>
+
+            </div>
+            <a href="#second" class="py-3 text-white hover:text-pink-100 text-xs m-auto">
+                Scroll for More
+            </a>
+        </div>
+        <div class="w-screen h-screen border-4 border-green-500 relative stop z-20 flex stop flex-col justify-end h-screen">2</div>
+        <div class="w-screen h-screen border-4 border-blue-500 relative stop z-10 text-white flex stop flex-col justify-end h-screen">1</div>
+        <div class="w-screen h-screen border-4 border-green-500 relative stop z-20 flex stop flex-col justify-end h-screen">2</div>
+        <div class="w-screen h-screen border-4 border-green-500 relative stop z-20 flex stop flex-col justify-end h-screen">2</div>
+        <div class="w-screen h-screen border-4 border-blue-500 relative stop z-10 text-white flex stop flex-col justify-end h-screen">1</div>
+        <div class="w-screen h-screen border-4 border-green-500 relative stop z-20 flex stop flex-col justify-end h-screen">2</div>
+
+        <div id="canvas-container"></div>
+
+
+        <script src="script.js"></script>
+    </body>
+</html>
