@@ -5,46 +5,146 @@ let scrollPosition = 0;
 let currentScroll = window.scrollY
 init();
 
+
 function init() {
     scene = new THREE.Scene();
 
-    camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 20, 0);
+    camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 10, 0);
     camera.lookAt(new THREE.Vector3(0, 0, camera.position.z)); // Look at the point (0, 0, 0)
 
-    renderer = new THREE.WebGLRenderer();
+    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
+    // const ambientLight = new THREE.PointLight(0xffffff, 1);
+    // scene.add(ambientLight);
+    // ambientLight.position.set(0, 10, camera.position.z)
+    //
+    pointLight = new THREE.PointLight(0xffffff, 3, 60);
+    pointLight.position.set(0, 4, 0);
+    scene.add(pointLight);
+
+    const directionalLight2 = new THREE.DirectionalLight(0xff00ff, 0.3);
+directionalLight2.position.set(2, 2, 0);
+
+scene.add(directionalLight2);
+
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('touchmove', onMouseMove);
+
+
 
     for (let i = 0; i < 10; i++) {
-        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const geometry = new THREE.BoxGeometry(i, 1, 1);
         const material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
         const cube = new THREE.Mesh(geometry, material);
         cube.position.set(0, 0, i*10);
         cubes.push(cube);
         scene.add(cube);
     }
-
-    window.addEventListener('wheel', onScroll);
-
+    window.addEventListener('scroll', onScroll);
+    loadGeometries()
     animate();
+
 }
+
+function onMouseMove(event) {
+    // Change light color based on mouse position
+
+
+    event.preventDefault();
+    const clientX = event.clientX || (event.touches && event.touches[0].clientX);
+    const clientY = event.clientY || (event.touches && event.touches[0].clientY);
+
+    if (clientX !== undefined && clientY !== undefined) {
+        const mouseX = (clientX / window.innerWidth) * 2 - 1;
+        const mouseY = (clientY / window.innerHeight) * 2 + 1 ;
+
+        // Update light direction based on mouse or touch position
+        // const newDirection = new THREE.Vector3(mouseX, 5 , );
+        const color = new THREE.Color(mouseX +1, mouseX-1, mouseY +1);
+        pointLight.color = color;
+        pointLight.position.x = mouseX;
+    }
+}
+
+
+function loadGeometries() {
+
+
+    let materialholo;
+
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.load('holo2.png', (texture) => {
+        materialholo = new THREE.MeshStandardMaterial({
+            map: texture,
+            metalness: 1,
+            roughness: 0.2,
+        });
+    });
+
+    const torus = new THREE.TorusGeometry(2.3, 0.1, 100, 100);
+    const shape = new THREE.Mesh(torus, materialholo);
+    shape.position.set (0, 0, 0)
+    shape.rotation.set(Math.PI / 2, 0, 0)
+
+    scene.add(shape);
+    animate()
+
+    const loader = new THREE.ObjectLoader();
+    const geometries = [
+
+
+        {
+            path: 'Models/model(11).json',
+            position: new THREE.Vector3(0, 3, 12),
+            scale: new THREE.Vector3(1.5, 1.5, 1.5),
+            rotation: new THREE.Euler(Math.PI , 0, 0),
+            name: 'bill'
+        },
+
+        {
+            path: 'Models/model(13).json',
+            position: new THREE.Vector3(0, 3, 21),
+            scale: new THREE.Vector3(2, 2, 2),
+            rotation: new THREE.Euler(Math.PI, 0, 0),
+            name: 'sofa'
+        }
+
+    ];
+
+
+    geometries.forEach(geo => {
+        loader.load(geo.path, (loadedObject) => {
+            const mesh = new THREE.Mesh(loadedObject.geometry, materialholo);
+            mesh.position.copy(geo.position);
+            mesh.scale.copy(geo.scale);
+            mesh.rotation.copy(geo.rotation);
+            mesh.name = geo.name;
+
+            scene.add(mesh);
+        });
+    });
+}
+
 
 function animate() {
     requestAnimationFrame(animate);
-
-    // const nearestPosition = Math.round(scrollPosition / 1) * 1;
-    // camera.position.z = nearestPosition < 0 ? Math.max(nearestPosition, -45) : 0;
-
     renderer.render(scene, camera);
+
+    scene.traverse((object) => {
+        if (object instanceof THREE.Mesh) {
+            object.rotation.z += Math.random() * 0.01; // Adjust rotation speed as needed
+        }
+
+    });
 }
 
 let prevScrollY = 0;
 let targetCameraZ = 0; // Initial camera Z position
-const cameraSpeed = 0.07; // Adjust the speed of camera movement
+const cameraSpeed = 0.3; // Adjust the speed of camera movement
 
 function onScroll(event) {
     const halfWindowHeight = window.innerHeight * 0.5;
@@ -58,24 +158,23 @@ function onScroll(event) {
         targetCameraZ -= 10;
         console.log('Scroll position went back below half of the window height.');
      }
+    // else if (scrollY > prevScrollY ){
+    //     camera.position.z += (camera.position.z) * 0.01
+    //     console.log('Else.');
+    // }
+    // else if (scrollY < prevScrollY ){
+    //     camera.position.z -= (camera.position.z) * 0.01
+    //     console.log('Else if.');
+    // }
+
 
     camera.position.z += (targetCameraZ - camera.position.z) * cameraSpeed;
+    pointLight.position.z = (targetCameraZ - camera.position.z) * (cameraSpeed/5);
 
 
-    // console.log(`currentVar: ${currentScroll}`)
-    // console.log(`ScrollY: ${scrollY}`)
-    // console.log(`Height: ${window.innerHeight/2}`)
-    //
-    //
-    //
-    // if (currentScroll < scrollY && scrollY > (window.innerHeight/2)){
-    //     currentScroll += window.innerHeight;
-    //     console.log(currentScroll)
-    // }
-    // else {
-    //     currentScroll -= window.innerHeight;
-    // }
-    scrollPosition += event.deltaY;
+
+
+    // scrollPosition += event.deltaY;
 }
 
 window.addEventListener('resize', () => {

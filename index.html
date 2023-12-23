@@ -13,17 +13,21 @@
             scroll-snap-type: y mandatory;
         }
         canvas {
+            background: black;
+
             position: fixed;
             top: 0;
             left: 0;
             z-index: -1;
         }
         #scroll-container {
+
             height: 700vh; /* Create a tall scrollable container */
             overflow-y: scroll; /* Enable vertical scrolling */
             scroll-snap-type: y mandatory; /* Enable scroll snapping */
         }
         #canvas-container {
+            background: black;
             position: fixed;
             top: 0;
             left: 0;
@@ -42,8 +46,8 @@
     </style>
 </head>
     <body id="scroll-container" class="flex flex-col justify-center items-center relative overflow-scroll">
-        <div class="w-screen h-screen border-4 border-blue-500 relative stop z-10 text-white flex stop flex-col justify-end h-screen">
-            BRANDING
+        <div class="w-screen h-screen   relative stop z-10 text-white flex stop flex-col justify-end h-screen">
+
             <div class="h-2/6"></div>
 
             <div class="self-center m-auto">
@@ -52,16 +56,16 @@
                 </h1>
                 <div class="grid text-white m-auto uppercase cursor-pointer py-3 justify-center grid-cols-2 lg:grid-cols-4 flex-wrap w-2/3">
 
-                    <a class="btn rounded-sm  bg-red-700 bg-opacity-60 hover:bg-opacity-25  text-center m-1 text-xs self-center px-1 p-1 pt-2">
+                    <a class="btn rounded-sm  bg-neutral-300 bg-opacity-60 hover:bg-opacity-25  text-center m-1 text-xs self-center px-1 p-1 pt-2">
                         WHY SO
                     </a>
-                    <a class="btn rounded-sm bg-red-700 bg-opacity-60 hover:bg-opacity-25 text-center m-1 text-xs self-center px-1 p-1 pt-2 ">
+                    <a class="btn rounded-sm bg-neutral-300 bg-opacity-60 hover:bg-opacity-25 text-center m-1 text-xs self-center px-1 p-1 pt-2 ">
                         Something
                     </a>
-                    <a class="btn rounded-sm  bg-red-700 bg-opacity-60 hover:bg-opacity-25 text-center m-1 text-xs self-center px-1 p-1 pt-2">
+                    <a class="btn rounded-sm  bg-neutral-300 bg-opacity-60 hover:bg-opacity-25 text-center m-1 text-xs self-center px-1 p-1 pt-2">
                         other stuff
                     </a>
-                    <a class="btn rounded-sm bg-red-700 bg-opacity-60 hover:bg-opacity-25 text-center m-1 text-xs self-center px-1 p-1 pt-2">
+                    <a class="btn rounded-sm bg-neutral-300 bg-opacity-60 hover:bg-opacity-25 text-center m-1 text-xs self-center px-1 p-1 pt-2">
                         more stuff
                     </a>
 
@@ -72,8 +76,20 @@
                 Scroll for More
             </a>
         </div>
-        <div class="w-screen h-screen border-4 border-green-500 relative stop z-20 flex stop flex-col justify-end h-screen">2</div>
-        <div class="w-screen h-screen border-4 border-blue-500 relative stop z-10 text-white flex stop flex-col justify-end h-screen">1</div>
+        <div class="w-screen h-screen  relative stop z-20 flex stop flex-col justify-end h-screen">
+            <div class="self-center m-auto">
+                <h1 class="leading-[0.8] uppercase lg:text-6xl md:text-3xl sm:text-2xl text-2xl text-center font-semibold text-white ">
+                    Branding
+                </h1>
+            </div>
+        </div>
+        <div class="w-screen h-screen  relative stop z-10 text-white flex stop flex-col justify-end h-screen">
+            <div class="self-center m-auto">
+                <h1 class="leading-[0.8] uppercase lg:text-6xl md:text-3xl sm:text-2xl text-2xl text-center font-semibold text-white ">
+                    Interior
+                </h1>
+            </div>
+        </div>
         <div class="w-screen h-screen border-4 border-green-500 relative stop z-20 flex stop flex-col justify-end h-screen">2</div>
         <div class="w-screen h-screen border-4 border-green-500 relative stop z-20 flex stop flex-col justify-end h-screen">2</div>
         <div class="w-screen h-screen border-4 border-blue-500 relative stop z-10 text-white flex stop flex-col justify-end h-screen">1</div>
